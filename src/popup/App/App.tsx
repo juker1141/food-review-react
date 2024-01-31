@@ -1,11 +1,14 @@
 import React from "react";
-import "./App.css";
-import { Counter } from "../Counter";
+import Header from "../Header";
+import ReviewList from "../Review/ReviewList";
 
 function App() {
   return (
-    <div className="App">
-      <Counter />
+    <div className="overflow-y-hidden">
+      <Header />
+      <main className="overflow-y-auto">
+        <ReviewList />
+      </main>
     </div>
   );
 }

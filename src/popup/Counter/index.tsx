@@ -21,17 +21,5 @@ export const Counter = () => {
     readBackgroundMessage();
   }, []);
 
-  return (
-    <div
-      style={{
-        height: "100vh",
-        fontSize: "24px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      Clicks: {value}
-    </div>
-  );
+  return <div>Clicks: {value}</div>;
 };
