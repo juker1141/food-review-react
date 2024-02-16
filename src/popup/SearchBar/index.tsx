@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+
 const SearchBar = () => {
   return (
     <div className="flex justify-center items-center">
@@ -9,9 +12,9 @@ const SearchBar = () => {
         />
         <button
           type="submit"
-          className=" grow flex justify-center items-center text-xl rounded-r bg-black p-2"
+          className="grow flex justify-center items-center text-xl rounded-r bg-primary p-2"
         >
-          <i className="fa-solid fa-magnifying-glass text-white"></i>
+          <FontAwesomeIcon color="white" icon={faMagnifyingGlass} />
         </button>
       </form>
     </div>

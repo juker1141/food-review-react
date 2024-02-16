@@ -1,15 +1,20 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 
+import type { PageContent } from "../App/App";
+
 type Inputs = {
   account: string;
   password: string;
 };
 
-const Login = () => {
+const Login = ({
+  setPageContent,
+}: {
+  setPageContent: React.Dispatch<React.SetStateAction<PageContent>>;
+}) => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -23,10 +28,13 @@ const Login = () => {
         body: JSON.stringify(data),
       }).then((res) => res.json());
       console.log(res);
+      // await Browser.storage.local.set({ jwtToken: res.data.accessToken });
+      setPageContent("Main");
     } catch (err: any) {
       console.log(err);
     }
   };
+
   return (
     <div className="h-screen flex flex-col justify-center items-center">
       <a href="/" className="flex justify-center items-center mb-12">
@@ -46,6 +54,7 @@ const Login = () => {
         <div className="mb-4 flex flex-col">
           <input
             placeholder="帳號"
+            defaultValue="test0001"
             className={`rounded-full border border-gray-300 py-2 px-4 text-base focus:outline-blue-300 ${
               errors.account ? "mb-1 border-red-500" : "border-gray-300"
             }`}
@@ -59,6 +68,7 @@ const Login = () => {
         <div className="mb-2 flex flex-col">
           <input
             placeholder="密碼"
+            defaultValue="12345678"
             className={`rounded-full border py-2 px-4 text-base focus:outline-blue-300 ${
               errors.password ? "mb-1 border-red-500" : "border-gray-300"
             }`}
@@ -71,7 +81,7 @@ const Login = () => {
         <div className="w-full flex justify-end mb-2">
           <a
             href="/"
-            className="mx-4 text-xs text-gray-400 hover:text-primary hover:underline hover:decoration-primary hover:underline-offset-2"
+            className="text-xs text-gray-400 hover:text-primary hover:underline hover:decoration-primary hover:underline-offset-2"
           >
             忘記密碼
           </a>

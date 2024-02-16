@@ -22,8 +22,41 @@ function countClicks() {
   });
 }
 
+type ShopType = "foodpanda" | "ubereats";
+
+async function getShopReviews(type: ShopType) {
+  try {
+    const res = await fetch("http://localhost:6300/ping").then((res) =>
+      res.json()
+    );
+    console.log(res);
+  } catch (err: any) {
+    console.log(err);
+  }
+}
+
+function checkBrowserUrl() {
+  chrome.tabs.query(
+    { active: true, windowId: chrome.windows.WINDOW_ID_CURRENT },
+    function (tabs) {
+      const currentUrl = tabs[0].url;
+      console.log(currentUrl);
+      if (!currentUrl) return;
+
+      if (currentUrl.indexOf("https://www.foodpanda.com") !== -1) {
+        console.log("is foodpanda");
+        getShopReviews("foodpanda");
+      } else if (currentUrl.indexOf("https://www.ubereats.com") !== -1) {
+        console.log("is ubereats");
+        getShopReviews("ubereats");
+      }
+    }
+  );
+}
+
 export function init() {
-  registerClickListener(countClicks);
+  checkBrowserUrl();
+  // registerClickListener(countClicks);
 }
 
 init();

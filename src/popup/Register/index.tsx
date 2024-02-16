@@ -1,15 +1,20 @@
 import { useForm, SubmitHandler } from "react-hook-form";
+import type { PageContent } from "../App/App";
 
 type Inputs = {
   account: string;
   password: string;
 };
 
-const Register = () => {
+const Register = ({
+  setPageContent,
+}: {
+  setPageContent: React.Dispatch<React.SetStateAction<PageContent>>;
+}) => {
   const {
     register,
     handleSubmit,
-    watch,
+    // watch,
     formState: { errors },
   } = useForm<Inputs>();
 

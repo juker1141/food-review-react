@@ -1,23 +1,32 @@
-import React, { Fragment, useState } from "react";
+import React, { useEffect, Fragment, useState } from "react";
+
 import Main from "../Main";
 import Login from "../Login";
 import Register from "../Register";
 
-type PageContent = "Main" | "Login" | "Register";
+export type PageContent = "Main" | "Login" | "Register";
 
 function App() {
   const [pageContent, setPageContent] = useState<PageContent>("Login");
 
+  useEffect(() => {
+    // async function getJwtToken() {
+    //   const res = await Browser.storage.local.get("jwtToken");
+    //   console.log(res);
+    // }
+    // getJwtToken();
+  }, []);
+
   const renderContent = () => {
     switch (pageContent) {
       case "Main":
-        return <Main />;
+        return <Main setPageContent={setPageContent} />;
       case "Login":
-        return <Login />;
+        return <Login setPageContent={setPageContent} />;
       case "Register":
-        return <Register />;
+        return <Register setPageContent={setPageContent} />;
       default:
-        return <Login />;
+        return <Login setPageContent={setPageContent} />;
     }
   };
 

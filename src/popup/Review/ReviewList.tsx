@@ -1,23 +1,53 @@
-import ReviewStars from "./ReviewStars";
+import { useCallback, useEffect, useRef } from "react";
 
-export type Stars = 1 | 2 | 3 | 4 | 5;
+import RatingStars from "./RatingStars";
+
+export type Rating = 1 | 2 | 3 | 4 | 5;
 
 type Review = {
   shopTitle: string;
   shopUrl: string;
-  stars: Stars;
+  rating: Rating;
   title: string;
   content: string;
   images: string;
   createTime: string;
 };
 
-const ReviewList = () => {
+const ReviewList = ({
+  isTopReview,
+  setIsTopReview,
+}: {
+  isTopReview: boolean;
+  setIsTopReview: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const listRef = useRef<HTMLUListElement>(null);
+
+  const switchState = useCallback(() => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    console.log(scrollTop);
+    if (scrollTop >= 30 && isTopReview) {
+      setIsTopReview(false);
+    } else {
+      setIsTopReview(true);
+    }
+  }, [isTopReview, setIsTopReview]);
+
+  useEffect(() => {
+    const currentListRef = listRef.current;
+
+    currentListRef?.addEventListener("scroll", switchState);
+
+    return () => {
+      currentListRef?.removeEventListener("scroll", switchState);
+    };
+  }, [switchState]);
+
   const datas: Review[] = [
     {
       shopTitle: "shop1",
       shopUrl: "http://google.com",
-      stars: 1,
+      rating: 1,
       title: "Good",
       content: "好吃",
       images:
@@ -27,7 +57,7 @@ const ReviewList = () => {
     {
       shopTitle: "shop2",
       shopUrl: "http://google.com",
-      stars: 2,
+      rating: 2,
       title: "Good",
       content: "好吃",
       images:
@@ -37,7 +67,7 @@ const ReviewList = () => {
     {
       shopTitle: "shop3",
       shopUrl: "http://google.com",
-      stars: 3,
+      rating: 3,
       title: "Good",
       content: "好吃",
       images:
@@ -47,7 +77,7 @@ const ReviewList = () => {
     {
       shopTitle: "shop4",
       shopUrl: "http://google.com",
-      stars: 4,
+      rating: 4,
       title: "Good",
       content: "好吃",
       images:
@@ -57,7 +87,7 @@ const ReviewList = () => {
     {
       shopTitle: "shop5",
       shopUrl: "http://google.com",
-      stars: 5,
+      rating: 5,
       title: "Good",
       content: "好吃",
       images:
@@ -67,7 +97,10 @@ const ReviewList = () => {
   ];
 
   return (
-    <ul className="flex flex-col py-2 w-full relative pt-[60px]">
+    <ul
+      ref={listRef}
+      className="flex flex-col w-full relative overflow-y-auto h-[540px]"
+    >
       {datas.map((data, i: number) => {
         return (
           <li
@@ -75,27 +108,12 @@ const ReviewList = () => {
             className="w-full px-4 py-2 flex flex-col border-b border-gray-200"
           >
             <div className="flex justify-between items-center">
-              <h4 className="text-lg truncate">
+              {/* <h4 className="text-lg truncate">
                 <a href={data.shopUrl}>{data.shopTitle}</a>
-              </h4>
-              <ReviewStars stars={data.stars} />
+              </h4> */}
+              <div className="font-bold truncate">{data.title}</div>
+              <RatingStars rating={data.rating} />
             </div>
-            <div className="font-bold">{data.title}</div>
-            <div className="w-full">{data.content}</div>
-            <div className="text-sm text-right">{data.createTime}</div>
-          </li>
-        );
-      })}
-      {datas.map((data, i: number) => {
-        return (
-          <li key={i} className="w-full p-2 flex flex-col">
-            <div className="flex justify-between items-center">
-              <h4 className="text-lg truncate">
-                <a href={data.shopUrl}>{data.shopTitle}</a>
-              </h4>
-              <ReviewStars stars={data.stars} />
-            </div>
-            <div className="font-bold">{data.title}</div>
             <div className="w-full">{data.content}</div>
             <div className="text-sm text-right">{data.createTime}</div>
           </li>
